@@ -7,7 +7,6 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
-import ProtectedRoute from '@/components/ProtectedRoute';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
@@ -54,6 +53,7 @@ const AuthenticatedApp = () => {
 
 function AnimatedRoutes() {
   const location = useLocation();
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -64,18 +64,15 @@ function AnimatedRoutes() {
         transition={{ duration: 0.22, ease: "easeOut" }}
       >
         <Routes location={location}>
-          {/* Add your page Route elements here */}
-          <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/ingestion" element={<Ingestion />} />
-            <Route path="/flows" element={<Flows />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/detectors" element={<Detectors />} />
-            <Route path="/classifier" element={<Classifier />} />
-            <Route path="/streaming" element={<Streaming />} />
-            <Route path="/alerts" element={<Alerts />} />
-            <Route path="/benchmarks" element={<Benchmarks />} />
-          </Route>
+          <Route path="/" element={<Home />} />
+          <Route path="/ingestion" element={<Ingestion />} />
+          <Route path="/flows" element={<Flows />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/detectors" element={<Detectors />} />
+          <Route path="/classifier" element={<Classifier />} />
+          <Route path="/streaming" element={<Streaming />} />
+          <Route path="/alerts" element={<Alerts />} />
+          <Route path="/benchmarks" element={<Benchmarks />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -85,7 +82,7 @@ function AnimatedRoutes() {
       </motion.div>
     </AnimatePresence>
   );
-};
+}
 
 
 function App() {
