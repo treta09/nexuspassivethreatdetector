@@ -151,9 +151,9 @@ def telemetry() -> dict[str, Any]:
     elapsed = max(time.monotonic() - window_started, 0.001)
     return {
         "flowsPerSec": round(flow_count / elapsed, 2),
-        "latencyP50": 12,
-        "latencyP95": 38,
-        "latencyMax": 80,
+        "latencyP50": None,
+        "latencyP95": None,
+        "latencyMax": None,
         "uptimeSec": int(time.monotonic()),
         "pcapTarget": "read-only mirror",
         "windowId": int(time.monotonic() // 5),
@@ -163,7 +163,7 @@ def telemetry() -> dict[str, Any]:
 @app.get("/benchmarks")
 def benchmarks() -> dict[str, Any]:
     return {
-        "throughput": [{"rate": "1,000 flows/s", "cpu": 18, "ram": 31, "status": "TARGET"}],
-        "detection": [{"metric": "p95 alert latency", "value": "38 ms"}, {"metric": "window", "value": "5 s / 1 s step"}],
-        "performance": [{"metric": "payload access", "value": "0 bytes"}, {"metric": "return path", "value": "none"}],
+        "throughput": [],
+        "detection": [],
+        "performance": [{"metric": "payload access", "value": "none"}, {"metric": "return path", "value": "none"}],
     }

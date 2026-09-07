@@ -40,7 +40,7 @@ function LatencyCell({ label, value, colorClass }) {
   return (
     <div className="bg-secondary border border-border rounded-md p-1.5 text-center">
       <div className="font-mono text-[8px] text-muted-foreground uppercase">{label}</div>
-      <div className={`font-mono text-[13px] font-bold ${colorClass}`}>{value}<span className="text-[8px] text-muted-foreground">ms</span></div>
+      <div className={`font-mono text-[13px] font-bold ${colorClass}`}>{value ?? "—"}{value != null && <span className="text-[8px] text-muted-foreground">ms</span>}</div>
     </div>
   );
 }
