@@ -1,0 +1,1 @@
+"""Database boundary; production deployments may use SQLite or PostgreSQL."""

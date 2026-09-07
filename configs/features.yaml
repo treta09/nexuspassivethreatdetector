@@ -1,0 +1,9 @@
+payload_decryption: false
+groups:
+  - flow
+  - statistical
+  - timing
+  - entropy
+  - dns
+  - tls_quic_metadata
+  - behavioral

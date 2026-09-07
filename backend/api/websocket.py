@@ -1,0 +1,1 @@
+"""Real-time alert stream boundary. No production-network return channel."""

@@ -1,0 +1,1 @@
+"""Database connection boundary; no persistence backend is assumed by the reference app."""

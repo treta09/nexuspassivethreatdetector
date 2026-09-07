@@ -1,0 +1,1 @@
+raise SystemExit("Synthetic traffic generation is intentionally disabled")

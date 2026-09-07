@@ -1,0 +1,1 @@
+"""Flow route boundary for observed, metadata-only records."""

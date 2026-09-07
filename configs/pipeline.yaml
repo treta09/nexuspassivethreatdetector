@@ -1,0 +1,5 @@
+read_only: true
+allow_return_path: false
+allow_payload_decryption: false
+allow_active_probing: false
+defined_throughput_target: null

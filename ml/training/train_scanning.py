@@ -1,0 +1,1 @@
+raise SystemExit("Train from approved scanning flow datasets only")

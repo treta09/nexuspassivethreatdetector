@@ -1,0 +1,1 @@
+"""Inference adapters; trained artifacts are loaded, never generated here."""

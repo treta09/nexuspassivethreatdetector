@@ -1,0 +1,1 @@
+"""Standardized alert service boundary."""

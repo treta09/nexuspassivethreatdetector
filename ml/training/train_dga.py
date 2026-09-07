@@ -1,0 +1,1 @@
+raise SystemExit("Train from approved DNS metadata datasets only")

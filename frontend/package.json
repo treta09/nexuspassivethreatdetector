@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "name": "nexus-passive-threat-detector-frontend-boundary",
+  "description": "The deployable Vite frontend remains at the repository root; this directory is reserved for a future extraction."
+}

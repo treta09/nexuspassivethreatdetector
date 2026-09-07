@@ -1,0 +1,1 @@
+raise SystemExit("Benchmark only with measured operator-supplied capture or replay data")

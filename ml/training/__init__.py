@@ -1,0 +1,1 @@
+"""Training entrypoints consume operator-supplied labeled datasets only."""

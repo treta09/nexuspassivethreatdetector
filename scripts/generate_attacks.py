@@ -1,0 +1,1 @@
+raise SystemExit("Synthetic attack generation is intentionally disabled")

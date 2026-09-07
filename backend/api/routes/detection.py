@@ -1,0 +1,1 @@
+"""Detection route boundary for trained model inference."""
