@@ -1,36 +1,37 @@
 import { useState } from "react";
 import { Trash2, AlertTriangle, X } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { api } from "@/api/client";
 import { useAuth } from "@/lib/AuthContext";
 
 // Mobile action sheet for account self-service. Lets an authenticated user
-// delete their own user record via the Base44 entity API, then clears the
+// delete their own user record via the API, then clears the
 // session and returns to login. Affects only the dashboard account — the
 // detection pipeline is read-only and untouched.
+/** @param {{ open: boolean, onClose: () => void }} props */
 export default function AccountDeleteSheet({ open, onClose }) {
   const { user, logout } = useAuth();
   const [stage, setStage] = useState("sheet"); // sheet | confirm | deleting | error
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   if (!open) return null;
 
   const handleDelete = async () => {
     setStage("deleting");
-    setError(null);
+    setError("");
     try {
-      await base44.entities.User.delete(user.id);
+      await api.entities.User.delete(user.id);
       // Account removed — clear the session and bounce to login.
       logout(true);
     } catch (err) {
       console.error("[accountDelete]", err);
-      setError(err?.message || "Deletion was blocked. Use the Users page in the app dashboard.");
+      setError(err instanceof Error ? err.message : "Deletion was blocked. Use the Users page in the app dashboard.");
       setStage("error");
     }
   };
 
   const close = () => {
     setStage("sheet");
-    setError(null);
+    setError("");
     onClose();
   };
 

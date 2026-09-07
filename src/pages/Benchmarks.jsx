@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PageShell, { Panel } from "@/components/layout/PageShell";
 import { useThreatStream } from "@/hooks/useThreatStream";
-import { base44 } from "@/api/base44Client";
+import { api } from "@/api/client";
 import { DATA_COLORS } from "@/lib/threatData";
 
 // System Benchmarks — throughput saturation, detection latency/performance,
@@ -15,7 +15,7 @@ export default function Benchmarks() {
     let mounted = true;
     (async () => {
       try {
-        const res = await base44.functions.invoke("getBenchmarks", {});
+        const res = await api.functions.invoke("getBenchmarks", {});
         if (mounted && res.data?.configured && res.data.benchmarks) setLive(res.data.benchmarks);
       } catch {
         /* keep empty — backend not configured */

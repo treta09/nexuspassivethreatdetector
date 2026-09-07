@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { base44 } from "@/api/base44Client";
+import { api } from "@/api/client";
 import { THREAT_CLASSES } from "@/lib/threatData";
 
 // Live-only streaming engine. Polls the FastAPI detection backend through the
@@ -36,7 +36,7 @@ export function useThreatStream() {
 
   const poll = useCallback(async () => {
     try {
-      const res = await base44.functions.invoke("getLiveThreatData", {});
+      const res = await api.functions.invoke("getLiveThreatData", {});
       if (!activeRef.current) return;
       const data = res.data;
       if (!data?.configured) {
