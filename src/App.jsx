@@ -11,7 +11,6 @@ import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
-// Add page imports here
 import Home from '@/pages/Home';
 import Ingestion from '@/pages/Ingestion';
 import Flows from '@/pages/Flows';
@@ -21,6 +20,7 @@ import Classifier from '@/pages/Classifier';
 import Streaming from '@/pages/Streaming';
 import Alerts from '@/pages/Alerts';
 import Benchmarks from '@/pages/Benchmarks';
+import Architecture from '@/pages/Architecture';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -73,6 +73,7 @@ function AnimatedRoutes() {
           <Route path="/streaming" element={<Streaming />} />
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/benchmarks" element={<Benchmarks />} />
+          <Route path="/architecture" element={<Architecture />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

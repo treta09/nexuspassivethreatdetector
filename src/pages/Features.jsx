@@ -1,15 +1,17 @@
 import PageShell, { Panel } from "@/components/layout/PageShell";
+import { PASSIVE_FEATURE_GROUPS } from "@/lib/threatData";
 
-// Feature Extraction stage — flow/behaviour/DNS feature groups + window table.
 export default function Features() {
   return (
-    <PageShell title="Feature Extraction" subtitle="Flows → features: generic (pkt/s, bytes/s) + behavioural (unique ports/hosts, entropy, connection rate)">
-      <div className="grid md:grid-cols-3 gap-3 mb-3">
-        <Panel title="Flow Features"><List items={["packet_count", "byte_count", "duration", "packets_per_second", "bytes_per_second"]} /></Panel>
-        <Panel title="Behaviour Features"><List items={["unique_destination_ports", "unique_destination_hosts", "unique_source_ips", "connection_rate", "source_entropy", "destination_entropy"]} /></Panel>
-        <Panel title="DNS Features"><List items={["domain_length", "entropy", "digit_ratio", "unique_character_ratio", "subdomain_length", "query_frequency", "record_type"]} /></Panel>
+    <PageShell title="Passive feature extraction" subtitle="Features are derived from flow records and protocol metadata inside bounded streaming windows">
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3 mb-3">
+        {PASSIVE_FEATURE_GROUPS.map((group) => (
+          <Panel key={group.name} title={group.name}>
+            <div className="font-mono text-[11px] text-info leading-relaxed">{group.fields}</div>
+          </Panel>
+        ))}
       </div>
-      <Panel title="Feature Windows · PCAP → flows → feature CSV">
+      <Panel title="Feature window contract · PCAP / flow export → vector">
         <div className="overflow-x-auto scrollbar-thin">
           <table className="w-full font-mono text-[11px]">
             <thead>
@@ -17,14 +19,16 @@ export default function Features() {
                 <th className="text-left px-2 py-1.5">Window</th>
                 <th className="text-right px-2 py-1.5">pkt/s</th>
                 <th className="text-right px-2 py-1.5">bytes/s</th>
-                <th className="text-right px-2 py-1.5">unique ports</th>
-                <th className="text-right px-2 py-1.5">unique hosts</th>
+                <th className="text-right px-2 py-1.5">entropy</th>
+                <th className="text-right px-2 py-1.5">fan-out</th>
+                <th className="text-right px-2 py-1.5">timing jitter</th>
+                <th className="text-right px-2 py-1.5">out/in bytes</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td colSpan={5} className="px-2 py-10 text-center font-mono text-[10px] text-muted-foreground uppercase tracking-[0.05em]">
-                  Awaiting feature windows from backend
+                <td colSpan={7} className="px-2 py-10 text-center font-mono text-[10px] text-muted-foreground uppercase tracking-[0.05em]">
+                  Live vectors appear when a read-only capture source is connected
                 </td>
               </tr>
             </tbody>
@@ -32,18 +36,5 @@ export default function Features() {
         </div>
       </Panel>
     </PageShell>
-  );
-}
-
-// Feature name list — info-colored with a muted chevron.
-function List({ items }) {
-  return (
-    <div className="space-y-1">
-      {items.map((i) => (
-        <div key={i} className="font-mono text-[10px] text-info flex items-center gap-1.5">
-          <span className="text-border">›</span>{i}
-        </div>
-      ))}
-    </div>
   );
 }

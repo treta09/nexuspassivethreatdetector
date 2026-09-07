@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import {
   Activity, Network, GitBranch, Sliders, ShieldAlert,
-  BrainCircuit, Radio, BellRing, Gauge, Radar,
+  BrainCircuit, Radio, BellRing, Gauge, Radar, Workflow,
 } from "lucide-react";
 
 // Desktop navigation rail. Hidden on mobile (mobile uses MobileNav instead).
@@ -17,17 +17,22 @@ const NAV = [
   { to: "/streaming", label: "Streaming Engine", icon: Radio },
   { to: "/alerts", label: "Alert Feed", icon: BellRing },
   { to: "/benchmarks", label: "System Benchmarks", icon: Gauge },
+  { to: "/architecture", label: "Architecture", icon: Workflow },
 ];
 
-export default function LeftRail({ telemetry }) {
+/** @param {any} props */
+export default function LeftRail(props) {
+  /** @type {{ telemetry: { pcapTarget: string, windowId: string | number } }} */
+  const typedProps = props;
+  const { telemetry } = typedProps;
   return (
     <aside className="hidden md:flex flex-col w-[220px] shrink-0 bg-card border-r border-border">
       {/* Brand */}
       <div className="h-[56px] flex items-center gap-2 px-4 border-b border-border">
         <Activity className="w-5 h-5 text-success" />
         <div className="leading-none">
-          <div className="font-heading text-[13px] font-bold tracking-tight text-foreground">Threat Monitor</div>
-          <div className="font-mono text-[9px] text-muted-foreground tracking-[0.1em] uppercase">v1.0 · SIH</div>
+          <div className="font-heading text-[13px] font-bold tracking-tight text-foreground">Nexus Passive Detector</div>
+          <div className="font-mono text-[9px] text-muted-foreground tracking-[0.1em] uppercase">v1.0 · one-way analytics</div>
         </div>
       </div>
 

@@ -8,7 +8,9 @@ import { useThreatStream } from "@/hooks/useThreatStream";
 // Shared shell wrapping the focused pipeline-stage pages. Provides the left
 // rail, top bars, and scroll area. Pass `onRefresh` to enable native
 // pull-to-refresh on the scroll container (used by data feeds like Alerts).
-export default function PageShell({ title, subtitle, children, onRefresh }) {
+/** @param {{ title?: any, subtitle?: any, children?: any, onRefresh?: any }} props */
+export default function PageShell(props) {
+  const { title, subtitle, children, onRefresh = null } = props;
   const { telemetry, alerts } = useThreatStream();
   const threatCount = alerts.filter((a) => a.threat_class !== "BENIGN").length;
 
@@ -45,7 +47,9 @@ export default function PageShell({ title, subtitle, children, onRefresh }) {
 
 // Bordered panel with an optional title row. The standard card surface used
 // across pipeline-stage pages.
-export function Panel({ title, children, right }) {
+/** @param {{ title?: any, children?: any, right?: any }} props */
+export function Panel(props) {
+  const { title, children, right = null } = props;
   return (
     <div className="bg-card border border-border rounded-lg">
       {title && (

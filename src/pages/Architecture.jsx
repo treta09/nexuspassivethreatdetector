@@ -1,0 +1,40 @@
+import PageShell from "@/components/layout/PageShell";
+import { ArrowRight, Check, Database, Eye, LockKeyhole, Radio, ShieldCheck, Zap } from "lucide-react";
+
+const layers = [
+  { number: "01", title: "Traffic source / one-way ingest", tone: "cyan", items: ["Production / Gateway / Peering Network", "Passive TAP / Hardware Data Diode / Traffic Mirror", "PCAP files", "NetFlow / IPFIX / sFlow records"], note: "READ-ONLY INGEST · NO RETURN PATH" },
+  { number: "02", title: "Ingestion & flow construction", tone: "blue", items: ["PCAP Reader", "Flow Record Reader", "Packet Parser", "Flow Tracker", "Streaming / PCAP Replay Engine", "5-Tuple Flow Identification"], note: "STREAMING / NEAR-REAL-TIME PROCESSING" },
+  { number: "03", title: "Feature engineering", tone: "violet", items: ["Flow-Level Features", "Statistical Features", "Timing / Inter-Arrival Features", "Entropy Features", "DNS Features", "TLS / QUIC Metadata Features", "Behavioral Features"], note: "NO PAYLOAD DECRYPTION" },
+  { number: "04", title: "AI / ML detection", tone: "amber", items: ["Volumetric / Protocol DDoS", "SYN Flood", "UDP Flood", "UDP Reflection / Amplification", "Spoofed-Source Flood", "Botnet C2 Beaconing", "DGA Domain Detection", "DNS Tunnelling", "Malware in Encrypted Sessions", "Reconnaissance / Port Scanning", "Data Exfiltration", "Threat Class · Probability / Confidence", "Anomaly Score · Supporting Feature Evidence"], note: "ML + STATISTICAL + RULE-BASED ENGINE" },
+  { number: "05", title: "Detection & alert", tone: "orange", items: ["Threat Classifier", "Confidence Scoring", "Severity Scoring", "Evidence Generator", "Alert Generator"], note: "STANDARDIZED ALERT OUTPUT" },
+  { number: "06", title: "Backend services", tone: "green", items: ["FastAPI Backend", "REST API", "WebSocket / Real-Time Alert Stream", "Alert Service", "Flow Service", "Statistics Service", "SQLite / PostgreSQL Database"], note: "ALERTS + HISTORY + FLOW CONTEXT" },
+  { number: "07", title: "SOC visualization", tone: "teal", items: ["Live Traffic Rate", "Total / Critical / High / Medium / Low Alerts", "Threat Distribution", "Traffic Timeline", "Confidence Scores", "Live Alert Table", "Flow Details", "Threat Evidence", "Detection Statistics"], note: "REST API + WEBSOCKET" },
+];
+
+const toneClasses = {
+  cyan: "border-cyan-400/40 bg-cyan-400/[0.045] text-cyan-300", blue: "border-blue-400/40 bg-blue-400/[0.045] text-blue-300", violet: "border-violet-400/40 bg-violet-400/[0.045] text-violet-300", amber: "border-amber-400/40 bg-amber-400/[0.045] text-amber-300", orange: "border-orange-400/40 bg-orange-400/[0.045] text-orange-300", green: "border-emerald-400/40 bg-emerald-400/[0.045] text-emerald-300", teal: "border-teal-400/40 bg-teal-400/[0.045] text-teal-300",
+};
+
+export default function Architecture() {
+  return (
+    <PageShell title="System architecture" subtitle="AI-Based Detection of Cyber Threats in Unidirectional IP Traffic · NTRO engineering view">
+      <div className="flex flex-wrap items-center gap-2 mb-4"><Constraint icon={Eye} label="READ-ONLY INGEST" /><Constraint icon={ArrowRight} label="ONE-DIRECTIONAL DATA FLOW" /><Constraint icon={LockKeyhole} label="NO RETURN PATH" /><Constraint icon={ShieldCheck} label="NO ACTIVE PROBING" /><Constraint icon={Zap} label="STREAMING / NEAR-REAL-TIME" /></div>
+      <div className="border border-border rounded-lg bg-[#0b1424] overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-card/70"><div className="flex items-center gap-2"><Radio className="w-4 h-4 text-success" /><span className="font-mono text-[11px] uppercase tracking-[0.12em] text-foreground">Passive monitoring enclave</span></div><span className="font-mono text-[9px] uppercase tracking-[0.1em] text-muted-foreground">NTRO · ARCH-01 · v1.0</span></div>
+        <div className="overflow-x-auto scrollbar-thin"><div className="min-w-[1500px] p-4"><div className="flex items-stretch gap-2">{layers.map((layer, index) => <Layer key={layer.number} layer={layer} last={index === layers.length - 1} />)}</div><FlowRecordBand /><MetadataBand /><AlertSchemaBand /></div></div>
+      </div>
+      <div className="grid md:grid-cols-4 gap-3 mt-3"><OpsPanel title="Evaluation / operations" icon={Database} items={["Model Training", "Dataset Preparation", "Validation / Testing", "Precision · Recall · F1 Score", "Confusion Matrix"]} /><OpsPanel title="Runtime benchmarks" icon={Zap} items={["Streaming Latency", "Throughput Benchmark", "Defined Throughput Target: flows/sec or Mbps"]} /><OpsPanel title="Implementation map" icon={Radio} items={["ingestion/ · feature_engineering/", "ml/ · detection/", "backend/ · frontend/", "docs/ · tests/ · configs/"]} /><OpsPanel title="Hard safety boundary" icon={LockKeyhole} items={["NO INLINE MITIGATION", "No packet injection", "No active scanners", "No bidirectional communication"]} danger /></div>
+    </PageShell>
+  );
+}
+
+function Constraint({ icon: Icon, label }) { return <div className="flex items-center gap-1.5 px-2.5 py-1.5 border border-success/30 bg-success/[0.05] rounded-md font-mono text-[9px] tracking-[0.07em] text-success"><Icon className="w-3 h-3" />{label}</div>; }
+
+function Layer({ layer, last }) {
+  return <div className="flex items-stretch gap-2"><section className={`w-[190px] shrink-0 border rounded-lg ${toneClasses[layer.tone]} overflow-hidden`}><div className="px-3 py-2 border-b border-inherit bg-black/10"><div className="flex items-center justify-between"><span className="font-mono text-[10px] opacity-70">LAYER {layer.number}</span><span className="w-1.5 h-1.5 rounded-full bg-current" /></div><h2 className="font-heading text-[12px] font-bold leading-tight mt-1 text-foreground">{layer.title}</h2></div><div className="p-2 space-y-1.5">{layer.items.map((item) => <div key={item} className="flex gap-1.5 font-mono text-[9px] leading-tight text-slate-300"><span className="text-current">•</span>{item}</div>)}</div><div className="mt-auto px-2 py-2 border-t border-inherit font-mono text-[8px] tracking-[0.04em] text-current">{layer.note}</div></section>{!last && <div className="w-7 shrink-0 flex items-center justify-center"><ArrowRight className="w-5 h-5 text-slate-500" /></div>}</div>;
+}
+
+function FlowRecordBand() { return <div className="mt-3 ml-[200px] flex items-center gap-3 border border-blue-400/20 bg-blue-400/[0.04] rounded-md px-3 py-2"><span className="font-mono text-[9px] uppercase text-blue-300 whitespace-nowrap">Structured flow record</span><span className="font-mono text-[9px] text-slate-400">Source IP · Destination IP · Source Port · Destination Port · Protocol · Timestamp · Packet Count · Byte Count · TCP Flags · Flow Duration</span></div>; }
+function MetadataBand() { return <div className="mt-2 ml-[400px] mr-[520px] border border-violet-400/20 bg-violet-400/[0.04] rounded-md px-3 py-2 font-mono text-[9px] text-violet-200"><span className="text-violet-300 uppercase">TLS / QUIC metadata only:</span> JA3 / JA3S / JA4 · packet sizes · timing · cipher / version metadata · flow statistics · no payload decryption</div>; }
+function AlertSchemaBand() { return <div className="mt-2 ml-[1000px] border border-orange-400/20 bg-orange-400/[0.04] rounded-md px-3 py-2 font-mono text-[9px] text-orange-100"><span className="text-orange-300 uppercase">Alert schema:</span> Timestamp · Flow ID · Threat Class · Confidence Score · Severity · Source / Destination · Supporting Evidence Features</div>; }
+function OpsPanel({ title, icon: Icon, items, danger }) { return <section className={`border rounded-lg p-3 ${danger ? "border-red-400/30 bg-red-400/[0.035]" : "border-border bg-card"}`}><div className={`flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.1em] ${danger ? "text-red-300" : "text-muted-foreground"}`}><Icon className="w-3.5 h-3.5" />{title}</div><div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-3">{items.map((item) => <div key={item} className="flex gap-2 font-mono text-[10px] text-slate-300"><Check className={`w-3 h-3 shrink-0 mt-0.5 ${danger ? "text-red-300" : "text-success"}`} />{item}</div>)}</div></section>; }

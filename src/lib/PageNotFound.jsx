@@ -51,7 +51,7 @@ export default function PageNotFound({}) {
                                 <div className="text-left space-y-1">
                                     <p className="font-body text-sm font-medium text-foreground">Admin Note</p>
                                     <p className="font-body text-sm text-muted-foreground leading-relaxed">
-                                        This could mean that the AI hasn't implemented this page yet. Ask it to implement it in the chat.
+                                        Check the address or return to the dashboard to continue.
                                     </p>
                                 </div>
                             </div>

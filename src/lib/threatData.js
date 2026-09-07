@@ -23,11 +23,48 @@ export const DATA_COLORS = {
 export const THREAT_CLASSES = [
   "BENIGN",
   "SYN_FLOOD",
+  "UDP_REFLECTION",
   "PORT_SCAN",
   "DNS_TUNNEL",
+  "DGA_DOMAIN",
   "EXFILTRATION",
   "C2_BEACON",
   "TLS_SUSPICIOUS",
+];
+
+// Threat catalog for the passive detector. Every class is inferred from
+// observed flow or protocol metadata; no detector sends traffic back.
+export const THREAT_CATALOG = [
+  { id: "SYN_FLOOD", label: "SYN flood", family: "Volumetric DDoS", evidence: "SYN rate, SYN/ACK ratio, source entropy" },
+  { id: "UDP_REFLECTION", label: "UDP reflection", family: "Volumetric DDoS", evidence: "amplification ratio, packet rate, spoofed-source entropy" },
+  { id: "C2_BEACON", label: "Botnet C2 beacon", family: "Command and control", evidence: "periodicity, inter-arrival variance, destination set" },
+  { id: "DNS_TUNNEL", label: "DNS tunnelling", family: "DNS abuse", evidence: "query entropy, length, n-grams, record type" },
+  { id: "DGA_DOMAIN", label: "DGA domain", family: "DNS abuse", evidence: "domain entropy, digit ratio, n-gram likelihood" },
+  { id: "TLS_SUSPICIOUS", label: "Suspicious TLS/QUIC", family: "Encrypted metadata", evidence: "JA3/JA4, packet sizes, timing sequence" },
+  { id: "PORT_SCAN", label: "Port scan", family: "Reconnaissance", evidence: "destination fan-out, port cardinality, connection rate" },
+  { id: "EXFILTRATION", label: "Data exfiltration", family: "Data loss", evidence: "outbound/inbound byte ratio, asymmetric duration" },
+  { id: "BENIGN", label: "Benign", family: "Baseline", evidence: "within learned baseline" },
+];
+
+export const PASSIVE_FEATURE_GROUPS = [
+  { name: "Flow statistics", fields: "packets, bytes, duration, packets/sec, bytes/sec" },
+  { name: "DDoS and entropy", fields: "SYN ratio, amplification, source-IP entropy, destination fan-out" },
+  { name: "Beacon behaviour", fields: "inter-arrival mean, jitter, periodicity, destination cardinality" },
+  { name: "DNS metadata", fields: "query length, entropy, n-grams, digit ratio, record type" },
+  { name: "TLS/QUIC metadata", fields: "JA3/JA3S/JA4, packet sizes, timing, handshake metadata" },
+  { name: "Exfiltration signals", fields: "outbound/inbound ratio, burst size, asymmetric flow volume" },
+];
+
+export const PIPELINE_STAGES = [
+  { id: "ingest", label: "Read-only ingest", detail: "PCAP, NetFlow/IPFIX, sFlow" },
+  { id: "flow", label: "Flow assembly", detail: "5-tuple windows with bounded state" },
+  { id: "features", label: "Feature extraction", detail: "Behaviour and protocol metadata" },
+  { id: "inference", label: "Inference", detail: "Rules plus trained classifier" },
+  { id: "alerts", label: "Alert output", detail: "Evidence-backed standardized records" },
+];
+
+export const ALERT_SCHEMA_FIELDS = [
+  "timestamp", "flow_id", "threat_class", "severity", "confidence", "evidence",
 ];
 
 // Severity → color. Used by chips, meters, and the inspector.
@@ -42,8 +79,10 @@ export const SEVERITY = {
 // and console indicators.
 export const THREAT_META = {
   SYN_FLOOD: { color: DATA_COLORS.danger, short: "SYN" },
+  UDP_REFLECTION: { color: DATA_COLORS.danger, short: "UDP" },
   PORT_SCAN: { color: DATA_COLORS.warning, short: "SCN" },
   DNS_TUNNEL: { color: DATA_COLORS.info, short: "DNS" },
+  DGA_DOMAIN: { color: DATA_COLORS.info, short: "DGA" },
   EXFILTRATION: { color: DATA_COLORS.pink, short: "EXF" },
   C2_BEACON: { color: DATA_COLORS.violet, short: "C2" },
   TLS_SUSPICIOUS: { color: DATA_COLORS.cyan, short: "TLS" },

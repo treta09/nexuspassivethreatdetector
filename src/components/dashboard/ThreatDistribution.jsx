@@ -2,8 +2,10 @@ import { THREAT_META } from "@/lib/threatData";
 
 // Threat distribution — per-class counts and share bars. Colors come from the
 // centralized THREAT_META palette so they match the radar and console.
-const ORDER = ["SYN_FLOOD", "PORT_SCAN", "DNS_TUNNEL", "EXFILTRATION", "C2_BEACON", "TLS_SUSPICIOUS"];
+/** @type {Array<keyof typeof THREAT_META>} */
+const ORDER = ["SYN_FLOOD", "UDP_REFLECTION", "PORT_SCAN", "DNS_TUNNEL", "DGA_DOMAIN", "EXFILTRATION", "C2_BEACON", "TLS_SUSPICIOUS"];
 
+/** @param {{ counts: Record<string, number> }} props */
 export default function ThreatDistribution({ counts }) {
   const total = ORDER.reduce((s, t) => s + (counts[t] || 0), 0) || 1;
   return (
@@ -11,7 +13,7 @@ export default function ThreatDistribution({ counts }) {
       <div className="font-mono text-[10px] tracking-[0.1em] text-muted-foreground uppercase mb-2">Threat Distribution</div>
       <div className="space-y-1.5">
         {ORDER.map((t) => {
-          const meta = THREAT_META[t];
+          const meta = THREAT_META[t] || THREAT_META.BENIGN;
           const n = counts[t] || 0;
           const pct = (n / total) * 100;
           return (

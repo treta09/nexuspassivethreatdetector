@@ -2,7 +2,8 @@
 // Shows an empty state until the classifier publishes metrics. No hardcoded
 // numbers. Diagonal = correct (success), off-diagonal = misclass (danger);
 // cell intensity scales with the count.
-export default function ConfusionMatrix({ labels = [], matrix = [], f1 }) {
+/** @param {{ labels?: string[], matrix?: number[][], f1?: string | number }} props */
+export default function ConfusionMatrix({ labels = [], matrix = [], f1 = null }) {
   const hasData = Array.isArray(matrix) && matrix.length > 0 && labels.length === matrix.length;
   return (
     <div className="bg-card border border-border rounded-lg p-3">

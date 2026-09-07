@@ -1,6 +1,11 @@
 import { THREAT_META, SEVERITY, formatTime } from "@/lib/threatData";
 
+/** @typedef {"SYN_FLOOD" | "UDP_REFLECTION" | "PORT_SCAN" | "DNS_TUNNEL" | "DGA_DOMAIN" | "EXFILTRATION" | "C2_BEACON" | "TLS_SUSPICIOUS" | "BENIGN"} ThreatClass */
+/** @typedef {keyof typeof SEVERITY} Severity */
+/** @typedef {{ id: string | number, flow_id: string, threat_class: ThreatClass, severity: Severity, confidence: number, src_ip: string, dst_ip: string, timestamp: string | number }} Alert */
+
 // Severity chip — colored badge driven by the centralized SEVERITY palette.
+/** @param {{ severity: Severity }} props */
 function SeverityChip({ severity }) {
   const s = SEVERITY[severity] || SEVERITY.LOW;
   return (
@@ -16,6 +21,7 @@ function SeverityChip({ severity }) {
 // Alert console — the live feed table. Clicking a row selects that alert
 // (onSelect); clicking the already-selected row toggles it off (passes null)
 // so the URL-bound detail view deselects. `selectedId` controls the highlight.
+/** @param {{ alerts: Alert[], selectedId?: string | number, onSelect: (alert: Alert | null) => void }} props */
 export default function AlertConsole({ alerts, selectedId, onSelect }) {
   return (
     <div className="flex flex-col bg-card border border-border rounded-lg flex-1 min-h-0">
@@ -37,7 +43,7 @@ export default function AlertConsole({ alerts, selectedId, onSelect }) {
           </thead>
           <tbody>
             {alerts.map((a) => {
-              const meta = THREAT_META[a.threat_class];
+              const meta = THREAT_META[a.threat_class] || THREAT_META.BENIGN;
               const active = a.id === selectedId;
               return (
                 <tr
